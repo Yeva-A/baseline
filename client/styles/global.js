@@ -30,7 +30,7 @@ export const globalStyles = StyleSheet.create({
   
   brand: {                  // 'Baseline' word logo
     fontSize: 30, 
-    fontWeight: '500', 
+    fontWeight: '400', 
     color: colors.text,
     letterSpacing: 4,
     marginLeft: -14,
