@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { globalStyles } from '../styles/global';
 import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
 
-export default function SignUpScreen({ navigation }) {
+export default function SignUp ({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,14 +28,14 @@ export default function SignUpScreen({ navigation }) {
 
     if (response.ok){
         Alert.alert('Success', 'Account created!');
-        navigation.navigate('ProfileSetup'); 
+        navigation.navigate('ProfileSetup', {uid: data.uid}); 
     } else {
         Alert.alert('Error', data.error);
     }
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.authContainer}>
         <Text style={globalStyles.title}> Create Account </Text>
 
         <TextInput 

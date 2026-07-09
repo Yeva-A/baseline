@@ -17,10 +17,11 @@ router.post('/register', async (req,res) => {
     await db.collection('users').doc(userRecord.uid).set({ // Create Firestore profile document with default value
         email: email,
         school: domain,
-        name: null,
+        firstName: null,
+        lastName: null,
+        description: null,
         skillLevel: null,
         playStyle: null,
-        description: null,
         availability: [],
         isOpen: false,
     });
