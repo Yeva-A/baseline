@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { globalStyles } from '../styles/global';
-import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { globalStyles, colors } from '../styles/global';
+import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert, StyleSheet } from 'react-native';
+import { Field, BackButton, PrimaryButton } from '../components/Bits'
 
 export default function SignUp ({ navigation }) {
   const [email, setEmail] = useState('');
@@ -35,37 +36,64 @@ export default function SignUp ({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={globalStyles.authContainer}>
-        <Text style={globalStyles.title}> Create Account </Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: colors.background, }}>
+        <View style={ styles.container }>
+        {/* Back Button */}
+        <BackButton navigation={navigation}> </BackButton>
 
-        <TextInput 
-        placeholder= "Email" 
-        style={globalStyles.input} 
-        value={email}
-        onChangeText={setEmail}    
-        />
-
-        <TextInput 
-        placeholder= "Password" 
-        style={globalStyles.input}
-        value={password}
-        onChangeText={setPassword} 
-        />
-
-        <TextInput 
-        placeholder= "Confirm Password" 
-        style={globalStyles.input} 
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        />
+        {/* Brand Block */}
+        <View styles={styles.brandBlock}> 
+        <View style={{ height: 30 }} />
+            <Text style={globalStyles.brand}> Baseline </Text>
+            <Text style={styles.heading}> Create your account </Text>
+            <Text style={styles.subtitle}> Join the court community in a few quiet steps. </Text>
+        </View>
         
-        <TouchableOpacity style={globalStyles.button} onPress= {handleSignUp}> 
-            <Text style={globalStyles.buttonText}> Sign Up </Text>
-        </TouchableOpacity>
+        {/* Fields */}
+        <View style={ styles.fieldGroup }> 
+            <Field
+            label="Email"
+            placeholder="you@school.edu"
+            value={email}
+            onChangeText={setEmail}
+            style= {{ marginBottom: 24 }}
+            />
 
-        <TouchableOpacity onPress= {() => navigation.navigate('Welcome')}>
-            <Text> Back to Home </Text>
-        </TouchableOpacity>
+            <Field
+            label="Password"
+            placeholder="••••••••"
+            value={password}
+            onChangeText={setPassword}
+            style= {{ marginBottom: 24}}
+            />
+
+            <Field
+            label="Confirm Password"
+            placeholder="••••••••"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            />
+        </View>
+
+        <View style={ styles.bottomSection }>
+            <PrimaryButton label="Sign Up" onPress= {handleSignUp} />
+        </View>
+
+    </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        justifyContent: 'flex-start',
+    },
+    brandBlock: { marginTop: 55},
+    bottomSection: { alignItems: 'center', paddingBottom: 16, marginTop: 90 },
+    heading: {fontSize: 22, fontWeight: '400', color: colors.text, marginTop: 40, marginLeft: -9,},
+    subtitle: {fontSize: 14, fontWeight: '300', color: colors.textMuted, marginTop: 8, marginLeft: -5},
+    fieldGroup: { width: '100%', marginTop: 50}
+})

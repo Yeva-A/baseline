@@ -14,7 +14,7 @@ export default function Login ({ navigation }) {
     try {
         const result = await signInWithEmailAndPassword(auth, email, password);
         Alert.alert('Success', 'Login Successful');
-        navigation.navigate('HomeScreen'); // TODO: create homescreen
+        navigation.navigate('Home'); 
     } catch (error) {
         Alert.alert('Error', error.message);
 
