@@ -17,6 +17,7 @@ module.exports = { db, admin };
 // Route imports
 const usersRouter = require ('./routes/users');
 const authRouter = require('./routes/auth');
+const matchpostsRouter = require ('./routes/matchposts');
 
 // App initialization
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.json());
 // Routes
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/matchposts', matchpostsRouter);
 
 app.get('/', (req, res) => {
     res.send('Baseline API is live');
