@@ -59,6 +59,43 @@ async function claimMatchPost(matchPostId, claimedBy){
 
 }
 
+// Updates specific fields of a singular match post when unclaimed
+async function editMatchPost(matchPostId, updates){
+ 
+    const doc = await db.collection('matchposts').doc(matchPostId).get();
+    const allowedUpdates = {};
+
+    if(!doc.exists){
+        const err = new Error ('Match post not found');
+        err.status = 404;
+        throw err;
+    }
+
+    if(doc.data().claimedBy == null ){
+        if (updates.matchType !== undefined ) allowedUpdates.matchType = updates.matchType;
+        if (updates.playStyle !== undefined ) allowedUpdates.playStyle = updates.playStyle;
+        if (updates.skillLevel !== undefined ) allowedUpdates.skillLevel = updates.skillLevel;
+        if (updates.dateTime !== undefined ) allowedUpdates.dateTime = updates.dateTime;
+        if (updates.message !== undefined ) allowedUpdates.message = updates.message;
+    
+        if (Object.keys(allowedUpdates).length === 0 ) {
+            const err = new Error('The fields provided cannot be changed');
+            err.status = 400;
+            throw err;
+        }
+
+        const data = await db.collection('matchposts').doc(matchPostId).update(allowedUpdates);
+
+        return { message: 'Match post updated successfully' };
+
+        } else {
+            const err = new Error('This match is claimed');
+            err.status = 409;
+            throw err;
+        }
+
+}
+
 // Deletes existiig match post
 async function deleteMatchPost(matchPostId){
     const doc = await db.collection('matchposts').doc(matchPostId).get();
@@ -76,4 +113,5 @@ async function deleteMatchPost(matchPostId){
     await db.collection('matchposts').doc(matchPostId).delete();
     return { message: 'Match post deleted successfully' };
 }
-module.exports = { createMatchPost, getOpenMatchPosts, claimMatchPost, deleteMatchPost };
+
+module.exports = { createMatchPost, getOpenMatchPosts, claimMatchPost, editMatchPost, deleteMatchPost };

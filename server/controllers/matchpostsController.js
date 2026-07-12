@@ -2,6 +2,7 @@ const {
     createMatchPost: createMatchPostService,
     getOpenMatchPosts: getOpenMatchPostsService,
     claimMatchPost: claimMatchPostService,
+    editMatchPost: editMatchPostService,
     deleteMatchPost: deleteMatchPostService
 } = require('../services/matchpostsService');
 
@@ -23,7 +24,7 @@ async function getOpenMatchPosts(req,res) {
         const matchPosts = await getOpenMatchPostsService(school);
         res.send(matchPosts);
     } catch (err){
-        res.status(err.status || 500 ).send({ error: err.message });
+        res.status(err.status || 500).send({ error: err.message });
     }
 }
 
@@ -35,10 +36,23 @@ async function claimMatchPost(req,res){
         const claimedPost = await claimMatchPostService(matchPostId, claimedBy);
         res.send(claimedPost);
     } catch (err) {
-        res.status(err.status || 500 ).send({ error: err.message })
+        res.status(err.status || 500).send({ error: err.message })
     }
 
 }
+
+//Edit a match post by matchPostId, returns 404 if not found or 409 if already claimed
+async function editMatchPost(req, res){
+    const matchPostId = req.params.matchPostId;
+    const updates = req.body;
+    try {
+        const result = await editMatchPostService(matchPostId, updates);
+        res.send(result);
+    } catch (err){
+        res.status(err.status || 500).send({ error: err.message });
+    }
+}
+
 
 // Deletes an existing match post by matchPostId, returns 404 if not found  
 async function deleteMatchPost(req,res){
@@ -50,4 +64,4 @@ async function deleteMatchPost(req,res){
         res.status(err.status || 500 ).send({ error: err.message });
     }
 }
-module.exports = { createMatchPost, getOpenMatchPosts, claimMatchPost, deleteMatchPost };
+module.exports = { createMatchPost, getOpenMatchPosts, claimMatchPost, editMatchPost, deleteMatchPost };

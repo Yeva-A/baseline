@@ -11,6 +11,9 @@ router.get('/', matchpostsController.getOpenMatchPosts);
 // Updates existing match post claimedBy field with a specific user. Used for Match Board Screen.
 router.put('/:matchPostId/claim', matchpostsController.claimMatchPost);
 
+// Updates specific fields of an existing match post. Used for My Matches Screen
+router.put('/:matchPostId', matchpostsController.editMatchPost);
+
 // Deletes existing match post. Used for My Matches Screen
 router.delete('/:matchPostId', matchpostsController.deleteMatchPost);
 
