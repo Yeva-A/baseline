@@ -2,38 +2,30 @@ import React, { useState } from 'react';
 import { globalStyles, colors } from '../styles/global';
 import { View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert, StyleSheet } from 'react-native';
 import { Field, BackButton, PrimaryButton } from '../components/Bits'
+import { registerUser } from '../services/authService';
 
 export default function SignUp ({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Ensures password is consisent
+  // Validates password consistency. Registers the user via authService, 
+  // navigates to ProfileSetup on success, alert shown on failure
+
   const handleSignUp = async () => {
     if (password != confirmPassword){
         Alert.alert('Error', 'Passwords do not match');
         return;
     }
 
-    // POST API 'auth/register'
-    const response = await fetch('http://192.168.1.154:3000/auth/register', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({email, password}),
-    });
-
-    // Parse response and handle success or error
-    const data = await response.json();
-
-    if (response.ok){
-        Alert.alert('Success', 'Account created!');
-        navigation.navigate('ProfileSetup', {uid: data.uid}); 
-    } else {
-        Alert.alert('Error', data.error);
+    try {
+        const data = await registerUser(email, password);
+        Alert.alert('Success', 'Account created');
+        navigation.navigate('ProfileSetup', {uid: data.uid});
+    } catch (err) {
+        Alert.alert('Error', err.message)
     }
-  }
+    }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.background, }}>

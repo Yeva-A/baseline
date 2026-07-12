@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { globalStyles, colors } from '../styles/global';
-import { auth } from '../firebaseConfig';
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { View, Text, SafeAreaView, TextInput, Alert, StyleSheet } from 'react-native';
 import { PrimaryButton, BackButton, Field } from '../components/Bits'
+import { loginUser } from '../services/authService';
 
 export default function Login ({ navigation }) {
   const [email, setEmail] = useState('');
@@ -12,7 +11,7 @@ export default function Login ({ navigation }) {
   // Handle login function
   const handleLogin = async () => {
     try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
+        const result = await loginUser(email, password);
         Alert.alert('Success', 'Login Successful');
         navigation.navigate('Home'); 
     } catch (error) {
