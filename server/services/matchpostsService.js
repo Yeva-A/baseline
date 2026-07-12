@@ -22,15 +22,24 @@ async function createMatchPost(data){
 // Retrieves all match posts that are open and within a particular school
 async function getOpenMatchPosts(school){
     const snapshot = await db.collection('matchposts')
-    .where('status', '==', 'open')
-    .where('school', '==', school )
+    .where ('status', '==', 'open')
+    .where('school', '==', school)
     .get();
 
-    const matchPosts = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
-    return matchPosts;
+    const matchPosts = await Promise.all(
+    snapshot.docs.map(async (doc) => {
+        const postData = doc.data();
+        const userDoc = await db.collection('users').doc(postData.postedBy).get();
+        const posterName = userDoc.exists ? userDoc.data().firstName : null;
+
+        return {
+            id: doc.id,
+            ...postData,
+            postedByName: posterName
+        };
+    })
+);
+return matchPosts;
 }
 
 // Updates existing match post's claimedBy and status from 'open' to 'claimed'
