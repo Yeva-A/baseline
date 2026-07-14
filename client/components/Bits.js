@@ -45,3 +45,42 @@ export function BackButton ({ navigation }){
     )
 }
 
+export function SkillBadge ({ label }){
+    return(
+        <View
+        style={{
+            alignItems: 'center',
+            paddingHorizontal: 8,
+            paddingVertical: 5,
+            borderRadius: 14,
+            borderWidth: 1,
+            borderColor: 'rgba(122, 158, 126, 0.4)',
+            backgroundColor: 'rgba(122, 158, 126, 0.05)',
+            alignSelf: 'flex-start'
+        }}>
+            
+            <Text style={{ fontSize: 12, fontWeight: '300', color: colors.primary, letterSpacing: 1.5 }}> { label } </Text>
+        </View>
+    )
+}
+
+// may need to add 'tones' for different pages
+export function Tag ({ label }){
+    return(
+        <View
+        style={{
+            alignItems: 'center',
+            paddingHorizontal: 10,
+            paddingVertical: 6,
+            borderRadius: 14,
+            borderWidth: 1,
+            borderColor: colors.border,
+            backgroundColor: colors.cream,
+            alignSelf: 'flex-start'
+        }}>
+            
+            <Text style={{ fontSize: 13, fontWeight: '300', color: colors.text, letterSpacing: 0 }}> { label } </Text>
+        </View>
+    )
+}
+

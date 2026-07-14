@@ -5,6 +5,7 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import ProfileSetup from './screens/ProfileSetup';
+import MatchBoard from './screens/MatchBoard';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
+      <Stack.Screen name="MatchBoard" component={MatchBoard} />
       </Stack.Navigator>
       </NavigationContainer>
   );
