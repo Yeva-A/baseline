@@ -5,7 +5,7 @@ import { Avatar } from './Avatar';
 import { ConfirmDialog } from './ConfirmDialog';
 import { SkillBadge, Tag, OutlineButton, PrimaryButton } from './Bits';
 
-export function MatchPostCard({matchPost, onAccept}){
+export function MatchPostCard({matchPost, onAccept, variant= "board" }){
     // Confirm state 
     const [showConfirm, setShowConfirm] = useState(false);
     const [justClaimed, setJustClaimed] = useState(false);
@@ -85,31 +85,38 @@ function formatMinutes(minutes){
         {/* Message, optional rendering*/}
         <View style={{ marginTop: 12 }}>{matchPost.message && <Text style={{ textAlign: 'left'}}>"{matchPost.message}" </Text>}</View>
 
-        <View style={{ marginTop: 20 }}>
-        {justClaimed ? (
+        {/* Bottom section, conditional rendering for card Match Board and My Matches */}
+        {variant === "board" ? (
+            <View style={{ marginTop: 20 }}>
+            {justClaimed ? (
             <PrimaryButton
                 label="View Match"
-                onPress={() => { // TODO: navigate to match details screen  
+                onPress={() => { 
+                // TODO: navigate to match details screen  
                 }}/> 
             ) : (
             <OutlineButton 
             label="Accept"
             onPress={() => {setShowConfirm(true);}}/>
+            )}
+
+            <ConfirmDialog
+                open={showConfirm}
+                title="Accept this match?"
+                message={`You'll be matched with ${matchPost.postedByName}`}
+                onConfirm={() => {
+                    onAccept();
+                    setJustClaimed(true);
+                    setShowConfirm(false);
+                }}
+                onCancel={() => setShowConfirm(false)}
+            />
+            </View>      
+        ) : ( 
+           <View style={{ marginTop: 20 }}>
+            {/* TODO: My Matches variant — status row + View Match button */}
+            </View> 
         )}
-        </View>
-
-        <ConfirmDialog
-            open={showConfirm}
-            title="Accept this match?"
-            message={`You'll be matched with ${matchPost.postedByName}`}
-            onConfirm={() => {
-                onAccept();
-                setJustClaimed(true);
-                setShowConfirm(false);
-            }}
-            onCancel={() => setShowConfirm(false)}
-
-        />
 
     </View>   
     )
