@@ -1,25 +1,30 @@
 import React from 'react';
 import { globalStyles } from '../styles/global';
 import { View, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
-import { Avatar } from '../components/Avatar'
+import { Avatar } from '../components/Avatar';
 import { MatchPostCard } from '../components/MatchPostCard';
-import { SkillBadge, Tag } from '../components/Bits'
+import { SkillBadge, Tag } from '../components/Bits';
 
 export default function MatchBoard ({ navigation }) {
+    // Handles match acceptance, TODO: 
+    const handleAccept = async () => {
+        try {
+        const result = await claimMatchPost(matchPostId, claimedBy);
+        Alert.alert('Success', 'You have claimed this match');
+        } catch ( error) {
+
+        }
+    }
     return (
     <SafeAreaView> 
-        <Text> Match Board </Text>
-
-        <Avatar name="Melissa Heart" />
-        <SkillBadge label="4.0 Intermediate" />
-        <Tag label="Doubles" />
+        <Text> Match Board </Text>   
         <MatchPostCard matchPost={{
-            postedByName: "Ava Adams",
-            skillLevel: "4.0",
-            matchType: "singles",
-            playStyle: "competitive",
+            postedByName: "Sofia Reyes",
+            skillLevel: "3.5 Intermediate",
+            matchType: "Singles",
+            playStyle: "Competitive",
             dateTime: "2026-07-20T18:00:00",
-            message: "Looking for a hitting partner"
+            message: "Looking for a solid rally partner before the weekend tournament."
 }} />
     </SafeAreaView>
     )
