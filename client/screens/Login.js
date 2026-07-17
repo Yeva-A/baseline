@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: 24,
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-start'
     },
     brandBlock: { marginTop: 55 },
     bottomSection: { alignItems: 'center', paddingBottom: 16, marginTop: 90 },
