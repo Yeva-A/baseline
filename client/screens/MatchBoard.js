@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { globalStyles } from '../styles/global';
-import { View, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, TextInput,  Alert } from 'react-native';
 import { Avatar } from '../components/Avatar';
 import { MatchPostCard } from '../components/MatchPostCard';
 import { SkillBadge, Tag } from '../components/Bits';
+import { getOpenMatchPosts } from '../services/matchpostsService';
 
 export default function MatchBoard ({ navigation }) {
+    const [matchPosts, setMatchPosts] = useState([]);
+    
     // Handles match acceptance, TODO: 
     const handleAccept = async () => {
         try {
@@ -15,17 +18,27 @@ export default function MatchBoard ({ navigation }) {
 
         }
     }
+
+    useEffect (() => {
+        async function loadMatchPosts(){
+            try {
+                const posts = await getOpenMatchPosts('wfu.edu');
+                setMatchPosts(posts);
+            } catch (error) {
+                Alert.alert('Error', error.message);
+                }
+            }
+            loadMatchPosts();
+        }, []);
+
     return (
-    <SafeAreaView> 
+    <SafeAreaView>
+
         <Text> Match Board </Text>   
-        <MatchPostCard matchPost={{
-            postedByName: "Sofia Reyes",
-            skillLevel: "3.5 Intermediate",
-            matchType: "Singles",
-            playStyle: "Competitive",
-            dateTime: "2026-07-20T18:00:00",
-            message: "Looking for a solid rally partner before the weekend tournament."
-}} />
+        {matchPosts.map((post) => (
+            <MatchPostCard key={post.id} matchPost={post} onAccept={() => handleAccept(post.id)}/>
+        ))}
+
     </SafeAreaView>
     )
 }

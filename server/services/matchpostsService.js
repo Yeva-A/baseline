@@ -30,7 +30,7 @@ async function getOpenMatchPosts(school){
     snapshot.docs.map(async (doc) => {
         const postData = doc.data();
         const userDoc = await db.collection('users').doc(postData.postedBy).get();
-        const posterName = userDoc.exists ? userDoc.data().firstName : null;
+        const posterName = userDoc.exists ? userDoc.data().firstName + ' ' + userDoc.data().lastName : null;
 
         return {
             id: doc.id,

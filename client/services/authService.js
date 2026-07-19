@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Sends  email and password to the backend to register a new account
 async function registerUser(email, password){
-    const response = await fetch('http://192.168.1.154:3000/auth/register', {
+    const response = await fetch('http://10.0.0.237:3000/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -13,7 +13,7 @@ async function registerUser(email, password){
     const data = await response.json();
 
     if (!response.ok){
-        Alert.alert('Error', data.error);
+        throw new Error(data.error);
     }
     return data;
   }
